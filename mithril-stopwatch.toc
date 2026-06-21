@@ -5,7 +5,7 @@
 ## Version: 1.0.0
 ## SavedVariables: MithrilStopwatchDB
 
-## Category: 
-## IconTexture: 
+## Category: User Interface
+## IconTexture: Interface\Icons\inv_misc_pocketwatch_02
 
 mithril-stopwatch.lua

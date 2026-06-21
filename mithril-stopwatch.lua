@@ -465,7 +465,7 @@ trackerBtn:SetPoint("RIGHT", ObjectiveTrackerFrame.Header.MinimizeButton, "LEFT"
 
 trackerBtn.Icon = trackerBtn:CreateTexture(nil, "ARTWORK")
 trackerBtn.Icon:SetAllPoints()
-trackerBtn.Icon:SetTexture("Interface\\Icons\\INV_Misc_PocketWatch_01")
+trackerBtn.Icon:SetTexture("Interface\\Icons\\inv_misc_pocketwatch_02")
 trackerBtn:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
 trackerBtn:GetHighlightTexture():SetBlendMode("ADD")
 
