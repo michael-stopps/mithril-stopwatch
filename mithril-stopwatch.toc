@@ -1,0 +1,11 @@
+## Interface: 120007
+## Title: Mithril Stopwatch
+## Notes: Provides timer and stopwatch functionality
+## Author: Michael Stopps
+## Version: 1.0.0
+## SavedVariables: MithrilStopwatchDB
+
+## Category: 
+## IconTexture: 
+
+mithril-stopwatch.lua
