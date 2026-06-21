@@ -3,6 +3,7 @@
 -- ==========================================
 local addonName, addonTable = ...
 
+-- Default DB structure
 local defaultDB = {
     settings = { locked = false, sound = 8959 },
     timers = {},      
@@ -138,6 +139,7 @@ end
 -- ==========================================
 local function CreateTimer(savedData)
     local id = savedData and savedData.id or GetUniqueTimerID()
+    local name = savedData and savedData.name or id
     
     local frame = CreateFrame("Frame", "Mithril" .. id, UIParent, "BackdropTemplate")
     frame:SetSize(180, 26)
@@ -160,9 +162,29 @@ local function CreateTimer(savedData)
     tab:EnableMouse(true)
     frame.tab = tab
     
-    local title = tab:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    local title = CreateFrame("EditBox", nil, tab)
+    title:SetSize(120, 20)
     title:SetPoint("CENTER", tab, "CENTER", -5, 0)
-    title:SetText(id)
+    title:SetFontObject("GameFontNormalSmall")
+    title:SetText(name)
+    title:SetJustifyH("CENTER")
+    title:SetAutoFocus(false)
+    title:EnableMouse(false)
+
+    local function SaveTitle()
+        title:ClearFocus()
+        title:EnableMouse(false)
+        title:HighlightText(0, 0)
+        frame.name = title:GetText()
+        if frame.name == "" then
+            frame.name = id
+            title:SetText(id)
+        end
+    end
+
+    title:SetScript("OnEnterPressed", SaveTitle)
+    title:SetScript("OnEscapePressed", SaveTitle)
+    title:SetScript("OnEditFocusLost", SaveTitle)
 
     if MithrilStopwatchDB and MithrilStopwatchDB.settings and not MithrilStopwatchDB.settings.locked then 
         frame:RegisterForDrag("LeftButton") 
@@ -175,7 +197,20 @@ local function CreateTimer(savedData)
     tab:SetScript("OnDragStop", function() frame:StopMovingOrSizing() end)
 
     frame:SetScript("OnMouseUp", HandleRightClickMenu)
-    tab:SetScript("OnMouseUp", HandleRightClickMenu)
+    
+    tab:SetScript("OnMouseUp", function(self, button)
+        if button == "RightButton" then
+            ToggleDropDownMenu(1, nil, soundDropdown, self, 0, 0)
+        elseif button == "LeftButton" then
+            local currentTime = GetTime()
+            if currentTime - (self.lastClick or 0) < 0.3 then
+                title:EnableMouse(true)
+                title:SetFocus()
+                title:HighlightText()
+            end
+            self.lastClick = currentTime
+        end
+    end)
 
     local input = CreateFrame("EditBox", nil, frame, "BackdropTemplate")
     input:SetSize(62, 20)
@@ -200,6 +235,7 @@ local function CreateTimer(savedData)
     btnAdd:SetPoint("RIGHT", btnPlay, "LEFT", -2, 0)
 
     frame.id = id
+    frame.name = name
     frame.running = savedData and savedData.running or false
     frame.endTime = savedData and savedData.endTime or 0
 
@@ -274,6 +310,7 @@ end
 -- ==========================================
 local function CreateStopwatch(savedData)
     local id = savedData and savedData.id or GetUniqueStopwatchID()
+    local name = savedData and savedData.name or id
     
     local frame = CreateFrame("Frame", "Mithril" .. id, UIParent, "BackdropTemplate")
     frame:SetSize(180, 26)
@@ -296,9 +333,29 @@ local function CreateStopwatch(savedData)
     tab:EnableMouse(true) 
     frame.tab = tab 
     
-    local title = tab:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    local title = CreateFrame("EditBox", nil, tab)
+    title:SetSize(120, 20)
     title:SetPoint("CENTER", tab, "CENTER", -5, 0)
-    title:SetText(id)
+    title:SetFontObject("GameFontNormalSmall")
+    title:SetText(name)
+    title:SetJustifyH("CENTER")
+    title:SetAutoFocus(false)
+    title:EnableMouse(false)
+
+    local function SaveTitle()
+        title:ClearFocus()
+        title:EnableMouse(false)
+        title:HighlightText(0, 0)
+        frame.name = title:GetText()
+        if frame.name == "" then
+            frame.name = id
+            title:SetText(id)
+        end
+    end
+
+    title:SetScript("OnEnterPressed", SaveTitle)
+    title:SetScript("OnEscapePressed", SaveTitle)
+    title:SetScript("OnEditFocusLost", SaveTitle)
 
     if MithrilStopwatchDB and MithrilStopwatchDB.settings and not MithrilStopwatchDB.settings.locked then 
         frame:RegisterForDrag("LeftButton") 
@@ -309,6 +366,18 @@ local function CreateStopwatch(savedData)
     frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
     tab:SetScript("OnDragStart", function() frame:StartMoving() end)
     tab:SetScript("OnDragStop", function() frame:StopMovingOrSizing() end)
+
+    tab:SetScript("OnMouseUp", function(self, button)
+        if button == "LeftButton" then
+            local currentTime = GetTime()
+            if currentTime - (self.lastClick or 0) < 0.3 then
+                title:EnableMouse(true)
+                title:SetFocus()
+                title:HighlightText()
+            end
+            self.lastClick = currentTime
+        end
+    end)
 
     local display = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlightLarge")
     display:SetPoint("LEFT", frame, "LEFT", 10, 0)
@@ -328,6 +397,7 @@ local function CreateStopwatch(savedData)
     btnAdd:SetPoint("RIGHT", btnLap, "LEFT", -2, 0)
 
     frame.id = id
+    frame.name = name
     frame.running = savedData and savedData.running or false
     frame.elapsed = savedData and savedData.elapsed or 0
     frame.absoluteStartTime = 0
@@ -365,7 +435,7 @@ local function CreateStopwatch(savedData)
             frame.elapsed = 0
             display:SetText("00:00.0")
         elseif frame.running then
-            print("|cFF00FF00" .. frame.id .. " Lap:|r " .. FormatTime(frame.elapsed, true))
+            print("|cFF00FF00" .. frame.name .. " Lap:|r " .. FormatTime(frame.elapsed, true))
         end
     end)
 
@@ -448,6 +518,7 @@ eventFrame:SetScript("OnEvent", function(self, event, arg1)
         for id, frame in pairs(activeTimers) do
             MithrilStopwatchDB.timers[id] = {
                 id = id,
+                name = frame.name,
                 x = frame:GetLeft(),
                 y = frame:GetBottom(),
                 running = frame.running,
@@ -459,6 +530,7 @@ eventFrame:SetScript("OnEvent", function(self, event, arg1)
         for id, frame in pairs(activeStopwatches) do
             MithrilStopwatchDB.stopwatches[id] = {
                 id = id,
+                name = frame.name,
                 x = frame:GetLeft(),
                 y = frame:GetBottom(),
                 running = frame.running,

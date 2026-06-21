@@ -34,6 +34,11 @@
         "ChatEdit_ChooseBoxForSend",
         "ChatEdit_ActivateChat",
         "Settings",
-        "ColorPickerFrame"
+        "ColorPickerFrame",
+        "WorldMapFrame",
+        "MapCanvasPinMixin",
+        "MapCanvasDataProviderMixin",
+        "CreateObjectPool",
+        "UiMapPoint"
     ]
 }
