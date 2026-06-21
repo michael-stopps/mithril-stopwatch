@@ -13,5 +13,27 @@
     },
     "Lua.workspace.library": [
         "~\\.vscode\\extensions\\ketho.wow-api-0.22.3\\Annotations\\Core"
+    ],
+    "Lua.diagnostics.globals": [
+        "UIDropDownMenu_SetWidth",
+        "UIDropDownMenu_Initialize",
+        "SlashCmdList",
+        "UIDropDownMenu_SetText",
+        "UIDropDownMenu_AddButton",
+        "UIDropDownMenu_CreateInfo",
+        "ToggleDropDownMenu",
+        "ObjectiveTrackerFrame",
+        "ReloadUI",
+        "StaticPopupDialogs",
+        "UISpecialFrames",
+        "ItemTextFrame",
+        "ChatFrame_AddMessageEventFilter",
+        "StaticPopup_Show",
+        "SOUNDKIT",
+        "ChatEdit_SendText",
+        "ChatEdit_ChooseBoxForSend",
+        "ChatEdit_ActivateChat",
+        "Settings",
+        "ColorPickerFrame"
     ]
 }
