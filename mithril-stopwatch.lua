@@ -28,6 +28,8 @@ local activeStopwatches = {}
 local timerCounter = 0
 local stopwatchCounter = 0
 
+local soundChannel = "Master"
+
 local function GetUniqueTimerID()
     local id
     repeat
@@ -108,7 +110,7 @@ end
 local soundDropdown = CreateFrame("Frame", "MithrilSoundDropdown", UIParent, "UIDropDownMenuTemplate")
 local function OnSoundSelect(self)
     MithrilStopwatchDB.settings.sound = self.value
-    PlaySound(self.value, "Master") 
+    PlaySound(self.value, soundChannel) 
 end
 
 local function InitializeDropdown(self, level)
@@ -250,7 +252,7 @@ local function CreateTimer(savedData)
             input:SetText("00:00")
             input:EnableMouse(true)
             input:SetAlpha(1)
-            PlaySound(MithrilStopwatchDB.settings.sound, "Master")
+            PlaySound(MithrilStopwatchDB.settings.sound, soundChannel)
         else
             input:SetText(FormatTime(remaining, false))
         end
