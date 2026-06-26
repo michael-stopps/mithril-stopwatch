@@ -2,7 +2,7 @@
 ## Title: Mithril Stopwatch
 ## Notes: Provides timer and stopwatch functionality
 ## Author: Michael Stopps
-## Version: 12.0.7.3
+## Version: 12.0.7.4
 ## SavedVariables: MithrilStopwatchDB
 
 ## Category: User Interface
