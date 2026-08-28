@@ -1,8 +1,8 @@
-## Interface: 120007
+## Interface: 120100
 ## Title: Mithril Stopwatch
 ## Notes: Provides timer and stopwatch functionality
 ## Author: Michael Stopps
-## Version: 12.0.7.4
+## Version: 12.1.0.1
 ## SavedVariables: MithrilStopwatchDB
 
 ## Category: User Interface
