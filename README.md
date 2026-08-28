@@ -17,3 +17,7 @@ Download the latest release from the Releases page or use WowUp's `Install from 
 * Toggle visibility with the icon attached to the `Objective Tracker` frame
 * Add additional timers and stopwatches with the `+` button
 * Double-click the headers to rename
+
+## Versioning
+
+Version numbers follow the WoW patch they were built for, plus an addon revision: `<patch>.<revision>` — e.g. `12.1.0.1` is the first release for patch 12.1.0. The revision resets to `1` on each new patch. Git tags use the same string.
